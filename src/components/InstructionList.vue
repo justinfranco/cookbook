@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-const instructions = ref("These are the instructions for the recipe");
+const props = defineProps({
+  instructions: { type: String, required: true },
+});
 </script>
 
 <template>
-  <p>{{ instructions }}</p>
+  <div>{{ instructions }}</div>
 </template>

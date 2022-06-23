@@ -19,6 +19,7 @@ function toggleAddRecipe() {
 function addRecipe() {
   recipes.$patch((state) => {
     state.recipes.push({
+      id: Date.now().toString(),
       title: "new",
       ingredients: ["pasts", "sauce", "parma"],
       instructions: recipeInstructions.value,

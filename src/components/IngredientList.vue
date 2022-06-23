@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import type { PropType } from "vue";
 import IngredientItem from "./IngredientItem.vue";
 
-const ingredients = ref(["apples", "pears", "sugar"]);
+const props = defineProps({
+  ingredients: { type: Array as PropType<string[]>, required: true },
+});
 </script>
 
 <template>

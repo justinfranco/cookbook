@@ -6,8 +6,8 @@ import Card from "primevue/card";
 const router = useRouter();
 const recipes = recipesStore().getAllRecipes;
 
-function navToRecipe() {
-  router.push({ name: "recipe" });
+function navToRecipe(recipeId: string) {
+  router.push({ name: "recipe", params: { recipeId: recipeId } });
 }
 </script>
 
@@ -15,7 +15,7 @@ function navToRecipe() {
   <Card
     v-for="recipe in recipes"
     :key="recipe.title"
-    @click="navToRecipe"
+    @click="navToRecipe(recipe.id)"
     style="width: 25em"
   >
     <template #header>
