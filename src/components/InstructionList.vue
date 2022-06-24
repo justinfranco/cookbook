@@ -4,6 +4,7 @@ const props = defineProps({
 });
 </script>
 
+// TODO: Allowing direct user input and rendering as html is probably a bad idea
 <template>
-  <div>{{ instructions }}</div>
+  <div v-html="instructions"></div>
 </template>

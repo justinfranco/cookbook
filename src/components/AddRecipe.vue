@@ -2,7 +2,7 @@
 import { ref } from "vue";
 
 import Dialog from "primevue/dialog";
-import Editor from "primevue/editor";
+import Editor, { EditorTextChangeEvent } from "primevue/editor";
 import Button from "primevue/button";
 
 import { recipesStore } from "../stores/recipes";
@@ -14,6 +14,10 @@ const recipeInstructions = ref("");
 
 function toggleAddRecipe() {
   displayAddRecipe.value = !displayAddRecipe.value;
+}
+
+function editorTextChange(event: EditorTextChangeEvent) {
+  recipeInstructions.value = event.htmlValue;
 }
 
 function addRecipe() {
@@ -43,7 +47,7 @@ function addRecipe() {
     :maximizable="true"
     :modal="true"
   >
-    <Editor v-model="recipeInstructions" editorStyle="height: 320px" />
+    <Editor @text-change="editorTextChange" editorStyle="height: 320px" />
     <Button @click="addRecipe">Add</Button>
   </Dialog>
 </template>
