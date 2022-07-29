@@ -3,26 +3,9 @@ import { computed, ref } from "vue";
 import Checkbox from "primevue/checkbox";
 import Dropdown from "primevue/dropdown";
 import { create, all } from "mathjs";
+import { units } from "./base/config";
 
 const math = create(all);
-const units = [
-  //Lengths
-  "inch",
-  "foot",
-  //volumes
-  "liter",
-  "teaspoon",
-  "tablespoon",
-  //Liquid Volumes
-  "fluidounce",
-  "cup",
-  "pint",
-  "quart",
-  //Mass
-  "gram",
-  "ounce",
-  "poundmass",
-];
 
 const props = defineProps({
   ingredient: { type: String, required: true },
@@ -43,6 +26,7 @@ function findAllowedUnits(base) {
 }
 
 const amount = computed(() => {
+  //if a new unit is selected the amount needs to be converted
   return selectedUnit.value
     ? props.amount.to(selectedUnit.value)
     : props.amount;
@@ -52,6 +36,8 @@ const amount = computed(() => {
 <template>
   <checkbox id="ingredient1" v-model="checked" :binary="true" />
   <label for="ingredient1">
+    {{ math.format(amount, 3) }} -
+    <strong> {{ props.ingredient }} - </strong>
     <Dropdown
       v-model="selectedUnit"
       :options="findAllowedUnits(props.amount)"
@@ -59,7 +45,5 @@ const amount = computed(() => {
       optionValue="code"
       placeholder="Select a unit"
     />
-    {{ amount }} -
-    <strong>{{ props.ingredient }}</strong>
   </label>
 </template>
