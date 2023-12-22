@@ -1,0 +1,54 @@
+services:
+  frontend:
+    build:
+      context: frontend
+    ports:
+      - 8080:8080
+    environment:
+      - API_URL=http://localhost:3000
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - ./frontend/tsconfig.app.json:/app/tsconfig.app.json
+      - ./frontend/tsconfig.vitest.json:/app/tsconfig.vitest.json
+      - ./frontend/tsconfig.config.json:/app/tsconfig.config.json
+      - ./frontend/.eslintrc.cjs:/app/.eslintrc.cjs
+      - ./frontend/env.d.ts:/app/env.d.ts
+      - ./frontend/index.html:/app/index.html
+    working_dir: /app
+    command: npm run dev
+  backend:
+    build:
+      context: backend
+    environment:
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    ports:
+      - 3000:3000
+    depends_on:
+      - migrate
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 5
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ./db/migrations:/migrations:ro
+    command: -path /migrations -database postgres://postgres:postgres@db:5432/postgres?sslmode=disable up
+    depends_on:
+      db:
+        condition: service_healthy
