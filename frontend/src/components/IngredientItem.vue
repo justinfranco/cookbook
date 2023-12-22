@@ -50,9 +50,9 @@ function convertUnit(event: DropdownChangeEvent) {
 <template>
   <checkbox id="ingredient1" v-model="checked" :binary="true" />
   <label for="ingredient1">
-    -
-    <strong> {{ ingredient.format({ precision: 3 }) }} </strong>
-    -
+    <strong style="margin: 10px">
+      {{ ingredient.format({ precision: 3 }) }}
+    </strong>
     <Dropdown
       v-model="selectedUnit"
       :options="findEqualBaseUnits(ingredient)"

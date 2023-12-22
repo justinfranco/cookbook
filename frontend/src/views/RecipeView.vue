@@ -24,16 +24,10 @@ watch(recipeId, () => {
 <template>
   <div class="card">
     <div class="flex flex-column card-container">
-      {{ recipe.Title }}
-    </div>
-  </div>
-  <div class="card">
-    <div class="flex flex-column card-container">
+      <h2>{{ recipe.Title }}</h2>
+      <h2>Ingredients</h2>
       <IngredientList :ingredients="recipe.Ingredients" />
-    </div>
-  </div>
-  <div class="card">
-    <div class="flex flex-column card-container">
+      <h2>Instructions</h2>
       <InstructionList :instructions="recipe.Instructions" />
     </div>
   </div>

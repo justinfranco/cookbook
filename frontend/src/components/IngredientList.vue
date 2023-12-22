@@ -12,6 +12,7 @@ const props = defineProps({
     v-for="ingredient of ingredients"
     :key="ingredient.Name"
     class="field-checkbox"
+    style="padding-inline-start: 0px"
   >
     <IngredientItem
       :name="ingredient.Name"
