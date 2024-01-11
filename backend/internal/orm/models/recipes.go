@@ -19,6 +19,7 @@ type Recipe struct{
 	Instructions string
 	Ingredients []Ingredient
 	ImageUrl string
+	Calories int
 	Servings int
 	PrepTime string
 	UserId int

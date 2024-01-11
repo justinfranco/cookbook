@@ -21,9 +21,7 @@ const math = create(all);
 const displayAddRecipe = ref(false);
 const recipeTitle = ref("");
 const recipeInstructions = ref("");
-const recipeIngredients = ref<Ingredient[]>([
-  { name: "", amount: "", unit: "" },
-]);
+const recipeIngredients = ref([{ name: "", quantity: "", unit: "" }]);
 const recipeImageUrl = ref("");
 
 const unitOptions = computed(() => {
@@ -47,9 +45,9 @@ function editorTextChange(event: EditorTextChangeEvent) {
 function addIngredientInput() {
   recipeIngredients.value.push({
     name: "",
-    amount: "",
+    quantity: "",
     unit: "",
-  } as Ingredient);
+  });
 }
 
 function removeIngredientInput(index: number) {
@@ -60,7 +58,7 @@ function ConvertIngredientsToMath() {
   const convertedIngredients = [];
   for (const ingredient of recipeIngredients.value) {
     convertedIngredients.push({
-      amount: math.unit(ingredient.amount + ingredient.unit).toString(),
+      quantity: math.unit(ingredient.quantity + ingredient.unit).toString(),
       item: ingredient.name,
     });
   }
@@ -86,7 +84,7 @@ function addRecipe() {
 function resetForm() {
   recipeTitle.value = "";
   recipeInstructions.value = "";
-  recipeIngredients.value = [{ name: "", amount: "", unit: "" }];
+  recipeIngredients.value = [{ name: "", quantity: "", unit: "" }];
   recipeImageUrl.value = "";
 }
 </script>
@@ -117,7 +115,7 @@ function resetForm() {
         <InputText
           placeholder="Quantity"
           type="text"
-          v-model="recipeIngredient.amount"
+          v-model="recipeIngredient.quantity"
         />
         <Dropdown
           v-model="recipeIngredient.unit"

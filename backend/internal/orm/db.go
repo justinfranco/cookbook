@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 
 	"gorm.io/driver/postgres"
@@ -33,4 +34,16 @@ func GetRecipes() []models.Recipe {
 	var recipes []models.Recipe
 	DB.Preload("Ingredients").Find(&recipes)
 	return recipes
+}
+
+func CreateRecipe(recipe *models.Recipe) {
+	slog.Info("Creating recipe")
+	tx := DB.Begin()
+	tx.Create(&recipe)
+	if tx.Error != nil {
+		tx.Rollback()
+		slog.Error("Error creating recipe", "error", tx.Error)
+	}
+	tx.Commit()
+	slog.Info("Recipe created")
 }
